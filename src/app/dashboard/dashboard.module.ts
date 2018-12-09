@@ -7,7 +7,7 @@ import { DashboardComponent } from './dashboard.component';
 import { AddComponent } from './add/add.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { InicioComponent } from './inicio/inicio.component';
-import { CustomSelectDirective } from '../shared/directives/custom.select.directive';
+import { CustomSelectModule } from './../shared/directives/custom.select.module';
 
 @NgModule({
   imports: [
@@ -15,13 +15,13 @@ import { CustomSelectDirective } from '../shared/directives/custom.select.direct
     RouterModule,
     DashboardRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CustomSelectModule
   ],
   declarations: [
     DashboardComponent, 
     AddComponent, 
-    InicioComponent,
-    CustomSelectDirective
+    InicioComponent
   ]
 })
 export class DashboardModule { }
