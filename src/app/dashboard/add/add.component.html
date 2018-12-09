@@ -1,0 +1,93 @@
+<form [formGroup]="userForm">
+  <h2>Preencha seus dados</h2>
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Nome"
+      formControlName="nome">
+  </div>
+  <div class="form-group">
+    <input
+      type="email"
+      class="form-control"
+      placeholder="E-mail"
+      formControlName="email">
+  </div>
+  <div class="form-group">
+    <input
+      type="tel"
+      class="form-control"
+      placeholder="Telefone"
+      formControlName="telefone">
+  </div>
+  <div formArrayName="linguagens">
+    <fieldset
+      *ngFor="let item of userForm.get('linguagens').controls; let i = index;"
+      [formGroupName]="i">
+      <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Linguagem"
+            formControlName="linguagem">
+      </div>
+      <div class="form-group">
+        
+          <div class="wm-custom-select form-control">
+            <div class="display field-default">Escolha o tipo de operação</div>
+            <ul class="custom-scrollbar">
+              <li class="selected field-default" data-value="">
+                Escolha o tipo de operação
+              </li>
+              <li class="field-default" data-value="operacao-1">
+                Operação 1
+              </li>
+              <li class="field-default" data-value="operacao-2">
+                Operação 2
+              </li>
+              <li class="field-default" data-value="operacao-3">
+                Operação 3
+              </li>
+              <li class="field-default" data-value="operacao-4">
+                Operação 4
+              </li>
+              <li class="field-default" data-value="operacao-5">
+                Operação 5
+              </li>
+              <li class="field-default" data-value="operacao-6">
+                Operação 6
+              </li>
+            </ul>
+            <input
+              type="hidden"
+              formControlName="tipo"
+              customSelect [myControl]="this.linguagens.controls[i].controls.tipo">
+          </div>
+      </div>
+      <div
+        class="form-group text-right"
+        *ngIf="hasMoreThanOneLanguages()">
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="removeItem(i)">Excluir</button>
+      </div>
+    </fieldset>
+  </div>
+  <div class="form-group">
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="addItem()">
+        Add Linguagem
+      </button>
+  </div>
+  <div class="form-group">
+    <button
+      class="btn btn-primary btn-block"
+      (click)="sendForm()">
+      Enviar
+    </button>
+  </div>
+</form>

@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-3">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a
+                        [routerLink]="['/admin']"
+                        class="nav-link">
+                        Início
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a
+                        [routerLink]="['add']"
+                        class="nav-link">
+                        Add Novo
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-9">
+            <router-outlet></router-outlet>
+        </div>
+
+    </div>
+</div>

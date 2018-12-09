@@ -1,1 +1,77 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+main{
+    padding-top: 60px;
+}
+fieldset{
+    border: solid #ced4da 1px;
+    padding: 15px 15px 0 15px;
+    border-radius: 0.25rem;
+    margin-bottom: 15px;
+}
+
+
+.wm-custom-select{
+	position: relative;
+	z-index: 9;
+}
+.wm-custom-select ul{
+	max-height: 240px;
+	overflow: hidden;
+	height: 0;
+	width: 100%;
+	position: absolute;
+	top: 48px;
+	left: 0;
+	z-index: 9;
+	background: #fff;
+
+	-webkit-transition: height .25s linear;
+  	transition: height .25s linear;
+}
+.wm-custom-select ul.custom-scrollbar::-webkit-scrollbar{
+	width: 4px;
+}
+.wm-custom-select ul li{
+	border-top: none;
+}
+.wm-custom-select ul li:hover{
+	background: #f8f8f8;
+}
+.wm-custom-select ul li.selected{
+	display: none;
+}
+.wm-custom-select.opened,
+.wm-custom-select.first{
+	z-index: 10;
+}
+.wm-custom-select .display{
+    position: relative;
+    /* padding-top: 10px;
+    padding-bottom: 10px; */
+}
+.wm-custom-select .display:before{
+	content: "";
+	border: solid black;
+	border-width: 0 1px 1px 0;
+	display: inline-block;
+	padding: 4px;
+	transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    position: absolute;
+    top: 6px;
+    right: 10px;
+}
+.wm-custom-select.opened ul{
+	height: 100px;
+	overflow: auto;
+}
+.wm-custom-select.disabled .display{
+	background: #f8f8f8;
+    cursor: no-drop;
+}
+.wm-custom-select.error .display{
+	color: #d86957;
+	border-color: #d86957;
+}
