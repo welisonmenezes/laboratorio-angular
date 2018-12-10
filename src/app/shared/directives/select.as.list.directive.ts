@@ -6,8 +6,11 @@ import { FormControl } from '@angular/forms';
 })
 export class SelectAsListDirective implements OnInit {
   
-  @Input() myControl: FormControl = null;
+  //@Input() myControl: FormControl = null;
 
+  @Input() selectAsList: FormControl = null;
+
+  private myControl: FormControl;
   private select: HTMLInputElement;
   private parent: HTMLElement;
   private container: HTMLElement;
@@ -19,6 +22,8 @@ export class SelectAsListDirective implements OnInit {
   constructor(private el: ElementRef, private renderer: Renderer2) {}
   
   ngOnInit(): void {
+
+    this.myControl = this.selectAsList;
 
     this.createElements();
 

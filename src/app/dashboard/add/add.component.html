@@ -43,8 +43,7 @@
         <select
           class="form-control"
           formControlName="nivel"
-          [myControl]="this.linguagens.controls[i].controls.nivel"
-          selectAsList>
+          [selectAsList]="this.linguagens.controls[i].controls.nivel">
           <option value="">Selecione uma opção</option>
           <option value="1">Nível 1</option>
           <option value="2">Nível 2</option>
