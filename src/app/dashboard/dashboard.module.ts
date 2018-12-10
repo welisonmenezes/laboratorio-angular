@@ -8,6 +8,7 @@ import { AddComponent } from './add/add.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { InicioComponent } from './inicio/inicio.component';
 import { CustomSelectModule } from './../shared/directives/custom.select.module';
+import { ErrorMessageComponent } from './../core/error-message/error-message.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { CustomSelectModule } from './../shared/directives/custom.select.module'
   declarations: [
     DashboardComponent, 
     AddComponent, 
-    InicioComponent
+    InicioComponent,
+    ErrorMessageComponent
   ]
 })
 export class DashboardModule { }

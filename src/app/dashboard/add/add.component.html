@@ -49,6 +49,7 @@
           <option value="2">Nível 2</option>
           <option value="3">Nível 3</option>
         </select>
+        <app-error-message [errors]="userForm.get('linguagens').controls[i].controls.linguagem.errors"></app-error-message>
       </div>
       <div class="form-group">
         
