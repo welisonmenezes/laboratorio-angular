@@ -29,26 +29,14 @@ export class SelectAsListDirective implements OnInit {
 
     this.listeOnClick();
 
-    let allLi =this.parent.querySelectorAll('li');
-    let i, total = allLi.length;
-
-    for(i = 0; i < total; i++){
-
-      let li: HTMLElement = allLi[i];
-      let value = li.getAttribute('data-value');
-
-      if(this.select.value === value){
-
-        this.setNewValue(li, false);
-      }
-    }
+    this.initWithDefaultValue();
 
   }
 
   // listen event click on parent directive
   private listeOnClick(): void{
 
-    this.renderer.listen(this.parent, 'click', ($event) => {
+    this.renderer.listen(this.container, 'click', ($event) => {
 
       this.toggleClass('opened');
       this.setValueOnClick($event.target);
@@ -91,12 +79,28 @@ export class SelectAsListDirective implements OnInit {
 
     this.renderer.addClass(li, 'selected');
 
-    this.displayField.textContent = txt;
-    //this.renderer.appendChild(this.displayField, this.renderer.createText(text));
+    this.renderer.removeChild(this.displayField, this.displayField.firstChild);
+    this.renderer.appendChild(this.displayField, this.renderer.createText(txt));
 
     if(this.myControl && isOnChange){
 
       this.myControl.setValue(val)
+    }
+  }
+
+  initWithDefaultValue(): void{
+    let allLi =this.parent.querySelectorAll('li');
+    let i, total = allLi.length;
+
+    for(i = 0; i < total; i++){
+
+      let li: HTMLElement = allLi[i];
+      let value = li.getAttribute('data-value');
+
+      if(this.select.value === value){
+
+        this.setNewValue(li, false);
+      }
     }
   }
 
@@ -105,7 +109,8 @@ export class SelectAsListDirective implements OnInit {
     this.select = this.el.nativeElement;
     this.parent = <HTMLElement>this.select.parentNode;
 
-    this.select.hidden = true;
+    //this.select.hidden = true;
+    this.renderer.setAttribute(this.select, 'hidden', 'true');
 
     // cria container
     this.container = this.renderer.createElement("div");
