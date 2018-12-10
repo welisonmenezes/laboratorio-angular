@@ -35,6 +35,7 @@ export class AddComponent implements OnInit {
   createItem(): FormGroup {
     return this.formBuilder.group({
       linguagem: ['', Validators.required],
+      nivel: ['2', Validators.required],
       tipo: ['operacao-3', Validators.required]
     });
   }

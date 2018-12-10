@@ -40,6 +40,18 @@
             formControlName="linguagem">
       </div>
       <div class="form-group">
+        <select
+          class="form-control"
+          formControlName="nivel"
+          [myControl]="this.linguagens.controls[i].controls.nivel"
+          selectAsList>
+          <option value="">Selecione uma opção</option>
+          <option value="1">Nível 1</option>
+          <option value="2">Nível 2</option>
+          <option value="3">Nível 3</option>
+        </select>
+      </div>
+      <div class="form-group">
         
           <div class="wm-custom-select form-control">
             <div class="display field-default">Escolha o tipo de operação</div>
