@@ -20,6 +20,7 @@ export class AddComponent implements OnInit {
       nome: ['', Validators.required],
       email: ['', Validators.required],
       telefone: ['', Validators.required],
+      arquivo: [null, Validators.required],
       linguagens: this.formBuilder.array([
         this.createItem()
       ])
@@ -55,5 +56,23 @@ export class AddComponent implements OnInit {
     console.log(dados);
   }
   
+  onFileChange(event) {
+    let reader = new FileReader();
+   
+    if(event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+    
+      reader.onload = () => {
+        this.userForm.patchValue({
+          filename: file.name,
+          filetype: file.type,
+          value: reader.result
+        });
+        
+        console.log(this.userForm);
+      };
+    }
+  }
 
 }
