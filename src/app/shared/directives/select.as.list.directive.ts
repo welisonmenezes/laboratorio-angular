@@ -84,7 +84,8 @@ export class SelectAsListDirective implements OnInit {
 
     if(this.myControl && isOnChange){
 
-      this.myControl.setValue(val)
+      this.myControl.setValue(val);
+      this.myControl.markAsDirty();
     }
   }
 

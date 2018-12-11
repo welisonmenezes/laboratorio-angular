@@ -18,7 +18,12 @@ export class AddComponent implements OnInit {
   ngOnInit() {
     this.userForm = this.formBuilder.group({
       nome: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['',
+        [
+          Validators.required,
+          Validators.email
+        ]
+      ],
       telefone: ['', Validators.required],
       arquivo: [null, Validators.required],
       linguagens: this.formBuilder.array([
@@ -28,14 +33,14 @@ export class AddComponent implements OnInit {
 
     this.linguagens = this.userForm.get('linguagens') as FormArray;
 
-    this.userForm.valueChanges.subscribe(v => console.log('desde subscribe', v));
+    //this.userForm.valueChanges.subscribe(v => console.log('desde subscribe', v));
   }
   
 
   createItem(): FormGroup {
     return this.formBuilder.group({
       linguagem: ['', Validators.required],
-      nivel: ['2', Validators.required],
+      nivel: ['', Validators.required],
       tipo: ['operacao-3', Validators.required]
     });
   }
@@ -53,8 +58,46 @@ export class AddComponent implements OnInit {
   }
 
   sendForm(){
+    //console.log(this.userForm)
+    this.setAllControlsAsDirty(this.userForm);
+    this.userForm.markAsDirty();
+
     const dados = this.userForm.getRawValue() as IUser;
     console.log(dados);
+  }
+
+  setAllControlsAsDirty(formGroup: any): void{
+    
+    if(formGroup.constructor.name === "FormGroup" &&  formGroup.controls){
+
+      for(let group in formGroup.controls){
+
+        let current: any = formGroup.controls[group];
+
+        if(current.constructor.name === "FormGroup" || current.constructor.name === "FormArray"){
+
+          this.setAllControlsAsDirty(current);
+        }else if(current.constructor.name === "FormControl"){
+          
+
+          current.setValue(current.value);
+          current.markAsDirty();
+        }
+      }
+    }else if(formGroup.constructor.name === "FormArray"){
+      
+      let i, total = formGroup.controls.length;
+      for(i = 0; i < total; i++){
+
+        if(formGroup.controls[i].constructor.name === "FormGroup"){
+          
+          this.setAllControlsAsDirty(formGroup.controls[i]);
+        }else if(formGroup.controls[i].constructor.name === "FormControl"){
+
+          formGroup.controls[i].markAsDirty();
+        }
+      }
+    }
   }
   
   onFileChange(event) {

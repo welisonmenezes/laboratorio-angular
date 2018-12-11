@@ -1,3 +1,4 @@
+import { FormControl } from '@angular/forms';
 import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
@@ -7,7 +8,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2 } from '@ang
 })
 export class ErrorMessageComponent implements OnInit {
 
-  @Input() errors: any;
+  @Input() control: FormControl;
   private message: string = null;
   private hasError: boolean = false;
   @ViewChild('messageContainer') el:ElementRef;
@@ -18,16 +19,51 @@ export class ErrorMessageComponent implements OnInit {
   }
 
   ngOnInit() {
-    //console.log(this.errors.required);
-    if(this.errors){
-      this.hasError = true;
-    }
-    else{
+    //console.log(this.control);
+
+    this.control.root.valueChanges.subscribe(v => {
+      this.setValidations();
+    });
+    // this.control.root.statusChanges.subscribe(v => {
+    //   this.setValidations();
+    // });
+
+    this.setValidations();
+    
+  }
+
+  setValidations(): void{
+
+    if(this.control.errors){
+
+      if(!this.control.pristine){
+
+        this.hasError = true;
+      }else{
+
+        this.hasError = false;
+      }
+
+      this.setErrorsMessages();
+
+    }else{
+
       this.hasError = false;
     }
 
-    if(this.errors && this.errors.required){
+  }
+
+  setErrorsMessages(): void {
+
+    if(this.control.errors.required){
+
       this.message = "Campo obrigatório";
+    }else if(this.control.errors.email){
+
+      this.message = "E-mail inválido!";
+    }else{
+
+      this.message = "";
     }
   }
 

@@ -4,8 +4,10 @@
     <input
       type="text"
       class="form-control"
+      [class.is-invalid]="userForm.get('nome').errors && !userForm.get('nome').pristine"
       placeholder="Nome"
       formControlName="nome">
+      <app-error-message [control]="userForm.get('nome')"></app-error-message>
   </div>
   <div class="form-group">
     <input
@@ -13,6 +15,7 @@
       class="form-control"
       placeholder="E-mail"
       formControlName="email">
+      <app-error-message [control]="userForm.get('email')"></app-error-message>
   </div>
   <div class="form-group">
     <input
@@ -49,7 +52,7 @@
           <option value="2">Nível 2</option>
           <option value="3">Nível 3</option>
         </select>
-        <app-error-message [errors]="userForm.get('linguagens').controls[i].controls.linguagem.errors"></app-error-message>
+        <app-error-message [control]="userForm.get('linguagens').controls[i].controls.nivel"></app-error-message>
       </div>
       <div class="form-group">
         
