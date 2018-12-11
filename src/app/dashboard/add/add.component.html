@@ -1,4 +1,6 @@
-<form [formGroup]="userForm">
+<form
+  [formGroup]="userForm"
+  (submit)="sendForm()">
   <h2>Preencha seus dados</h2>
   <div class="form-group">
     <input
@@ -7,7 +9,7 @@
       [class.is-invalid]="userForm.get('nome').errors && !userForm.get('nome').pristine"
       placeholder="Nome"
       formControlName="nome">
-      <app-error-message [control]="userForm.get('nome')"></app-error-message>
+      <app-error-message [control]="userForm.get('nome')" [submitService]="formSubmitService"></app-error-message>
   </div>
   <div class="form-group">
     <input
@@ -15,7 +17,7 @@
       class="form-control"
       placeholder="E-mail"
       formControlName="email">
-      <app-error-message [control]="userForm.get('email')"></app-error-message>
+      <app-error-message [control]="userForm.get('email')" [submitService]="formSubmitService"></app-error-message>
   </div>
   <div class="form-group">
     <input
@@ -29,6 +31,14 @@
       type="file"
       class="form-control"
       formControlName="arquivo"
+      (change)="onFileChange($event)">
+      <app-error-message [control]="userForm.get('arquivo')" [submitService]="formSubmitService"></app-error-message>
+  </div>
+  <div class="form-group">
+    <input
+      type="file"
+      class="form-control"
+      formControlName="arquivo2"
       (change)="onFileChange($event)">
   </div>
   <div formArrayName="linguagens">
@@ -52,7 +62,11 @@
           <option value="2">Nível 2</option>
           <option value="3">Nível 3</option>
         </select>
-        <app-error-message [control]="userForm.get('linguagens').controls[i].controls.nivel"></app-error-message>
+        <!-- <div #messageContainer class="alert alert-danger" role="alert" *ngIf="userForm.get('linguagens').controls[i].controls.nivel.errors && !userForm.get('linguagens').controls[i].controls.nivel.pristine">
+          errors
+        </div> -->
+        <app-error-message [control]="userForm.get('linguagens').controls[i].controls.nivel" [submitService]="formSubmitService"></app-error-message>
+        {{ userForm.get('linguagens').controls[i].controls.nivel.errors }}
       </div>
       <div class="form-group">
         
@@ -106,9 +120,7 @@
       </button>
   </div>
   <div class="form-group">
-    <button
-      class="btn btn-primary btn-block"
-      (click)="sendForm()">
+    <button class="btn btn-primary btn-block">
       Enviar
     </button>
   </div>

@@ -1,5 +1,7 @@
 import { FormControl } from '@angular/forms';
 import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Observable } from 'rxjs';
+import { formSubmitService } from './form-submit.service';
 
 @Component({
   selector: 'app-error-message',
@@ -9,6 +11,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef, Renderer2 } from '@ang
 export class ErrorMessageComponent implements OnInit {
 
   @Input() control: FormControl;
+  @Input() submitService: formSubmitService;
   private message: string = null;
   private hasError: boolean = false;
   @ViewChild('messageContainer') el:ElementRef;
@@ -20,6 +23,16 @@ export class ErrorMessageComponent implements OnInit {
 
   ngOnInit() {
     //console.log(this.control);
+    //console.log('ngOnInit',this.formSubmited$);
+    //if(this.submitService){
+      this.submitService.getFormObservable().subscribe(v => {
+        console.log(this.control.errors);
+        this.control.markAsDirty();
+        console.log(this.control.pristine);
+        this.setValidations();
+      });
+   // }
+    
 
     this.control.root.valueChanges.subscribe(v => {
       this.setValidations();
@@ -28,7 +41,7 @@ export class ErrorMessageComponent implements OnInit {
     //   this.setValidations();
     // });
 
-    this.setValidations();
+    //this.setValidations();
     
   }
 
@@ -61,6 +74,9 @@ export class ErrorMessageComponent implements OnInit {
     }else if(this.control.errors.email){
 
       this.message = "E-mail inválido!";
+    }else if(this.control.errors.extensions){
+
+      this.message = "Tipo de arquivo inválido!";
     }else{
 
       this.message = "";

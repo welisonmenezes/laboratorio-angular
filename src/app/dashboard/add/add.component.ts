@@ -1,7 +1,10 @@
+import { formSubmitService } from './../../core/error-message/form-submit.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { extensionsValidator } from '../../shared/validators/extencions.validator';
 
 import { IUser } from '../../shared/models/user';
+import { Subject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add',
@@ -12,10 +15,16 @@ export class AddComponent implements OnInit {
 
   userForm: FormGroup;
   linguagens: FormArray;
+  //formSubmited: Subject<boolean>;
+  
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private formSubmitService: formSubmitService) {
+    //this.formSubmited = false;
+    //this.formSubmited = new Subject();
+  }
 
   ngOnInit() {
+    
     this.userForm = this.formBuilder.group({
       nome: ['', Validators.required],
       email: ['',
@@ -24,8 +33,14 @@ export class AddComponent implements OnInit {
           Validators.email
         ]
       ],
-      telefone: ['', Validators.required],
-      arquivo: [null, Validators.required],
+      telefone: [''],
+      arquivo: [null,
+        [
+          extensionsValidator,
+          Validators.required
+        ]
+      ],
+      arquivo2: [null],
       linguagens: this.formBuilder.array([
         this.createItem()
       ])
@@ -39,9 +54,9 @@ export class AddComponent implements OnInit {
 
   createItem(): FormGroup {
     return this.formBuilder.group({
-      linguagem: ['', Validators.required],
+      linguagem: [''],
       nivel: ['', Validators.required],
-      tipo: ['operacao-3', Validators.required]
+      tipo: ['operacao-3']
     });
   }
 
@@ -59,11 +74,20 @@ export class AddComponent implements OnInit {
 
   sendForm(){
     //console.log(this.userForm)
-    this.setAllControlsAsDirty(this.userForm);
-    this.userForm.markAsDirty();
+    //this.userForm.get('nome').
+    //this.formSubmited.next(true);
+    this.formSubmitService.emitFomrSubject(true);
 
-    const dados = this.userForm.getRawValue() as IUser;
-    console.log(dados);
+    if(this.userForm.invalid){
+      //console.log('inválido');
+      this.setAllControlsAsDirty(this.userForm);
+      this.userForm.markAsDirty();
+    }else{
+
+      const dados = this.userForm.getRawValue() as IUser;
+      //console.log(dados);
+    }
+  
   }
 
   setAllControlsAsDirty(formGroup: any): void{
@@ -79,12 +103,25 @@ export class AddComponent implements OnInit {
           this.setAllControlsAsDirty(current);
         }else if(current.constructor.name === "FormControl"){
           
+          //console.log('é invalido?', current)
+          if(current.erros){
+            if(current.errors.extensions){
 
-          current.setValue(current.value);
-          current.markAsDirty();
+              current.setValue(null);
+            }else{
+
+              current.setValue(current.value);
+            }
+            //current.setValue(null);
+            current.markAsDirty();
+            //current.markAsPristine();
+          }
+          //console.log(current)
+          //current.setValue(current.value);
+          //current.markAsDirty();
         }
       }
-    }else if(formGroup.constructor.name === "FormArray"){
+    }else if(formGroup.constructor.name === "FormArray" &&  formGroup.controls){
       
       let i, total = formGroup.controls.length;
       for(i = 0; i < total; i++){
@@ -93,8 +130,20 @@ export class AddComponent implements OnInit {
           
           this.setAllControlsAsDirty(formGroup.controls[i]);
         }else if(formGroup.controls[i].constructor.name === "FormControl"){
+          //console.log(formGroup.controls[i])
+          //formGroup.controls[i].markAsDirty();
+          if(formGroup.controls[i].errors){
+            //formGroup.controls[i].setValue(formGroup.controls[i].value);
+            if(formGroup.controls[i].errors.extensions){
 
-          formGroup.controls[i].markAsDirty();
+              formGroup.controls[i].setValue(null);
+            }else{
+
+              formGroup.controls[i].setValue(formGroup.controls[i].value);
+            }
+            formGroup.controls[i].markAsDirty();
+          }
+
         }
       }
     }
@@ -105,6 +154,7 @@ export class AddComponent implements OnInit {
    
     if(event.target.files && event.target.files.length) {
       const [file] = event.target.files;
+      //console.log(file)
       reader.readAsDataURL(file);
     
       reader.onload = () => {
@@ -114,9 +164,14 @@ export class AddComponent implements OnInit {
           value: reader.result
         });
         
-        console.log(this.userForm);
+        console.log('onFileChange', this.userForm);
       };
     }
+  }
+
+  validateExt(c: FormControl) {
+      let extension = ['png', 'jpeg', 'gif'];
+      return extension.indexOf(c.value)? null : { validateExt: { valid: false } }
   }
 
 }
