@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+const API_URL = "http://localhost:3000";
 
 @Component({
   selector: 'app-inicio',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InicioComponent implements OnInit {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    this.http.get(API_URL + '/user/exists/')
+      .subscribe(
+        () => {},
+        err => console.log(err)
+      );
   }
 
 }

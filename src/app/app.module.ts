@@ -6,6 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PublicModule } from './public/public.module';
 
+import { LoadingPageModule } from 'angular-loading-page';
+
 import { HeaderComponent } from './core/header/header.component';
 
 @NgModule({
@@ -17,7 +19,8 @@ import { HeaderComponent } from './core/header/header.component';
     BrowserModule,
     FormsModule,
     PublicModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LoadingPageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -85,7 +85,7 @@ export class AddComponent implements OnInit {
     }else{
 
       const dados = this.userForm.getRawValue() as IUser;
-      //console.log(dados);
+      console.log(dados);
     }
   
   }

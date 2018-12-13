@@ -1,4 +1,7 @@
 <app-header></app-header>
 <main role="main">
+    <div *mkLoadingPage="{checkPendingRoute: true, checkPendingHttp: true}">
+        carregando...
+    </div>
     <router-outlet></router-outlet>
 </main>

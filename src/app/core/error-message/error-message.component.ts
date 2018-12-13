@@ -26,9 +26,9 @@ export class ErrorMessageComponent implements OnInit {
     //console.log('ngOnInit',this.formSubmited$);
     //if(this.submitService){
       this.submitService.getFormObservable().subscribe(v => {
-        console.log(this.control.errors);
+        //console.log(this.control.errors);
         this.control.markAsDirty();
-        console.log(this.control.pristine);
+        //console.log(this.control.pristine);
         this.setValidations();
       });
    // }
