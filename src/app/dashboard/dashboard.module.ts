@@ -9,6 +9,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { InicioComponent } from './inicio/inicio.component';
 import { CustomSelectModule } from './../shared/directives/custom.select.module';
 import { ErrorMessageComponent } from './../core/error-message/error-message.component';
+import { LanguagesComponent } from './add/languages/languages.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,9 @@ import { ErrorMessageComponent } from './../core/error-message/error-message.com
     DashboardComponent, 
     AddComponent, 
     InicioComponent,
-    ErrorMessageComponent
+    ErrorMessageComponent,
+    LanguagesComponent,
+    LanguagesComponent
   ]
 })
 export class DashboardModule { }

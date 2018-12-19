@@ -1,9 +1,10 @@
 import { ILanguage } from './language';
 
 export interface IUser{
-    nome: string;
+    name: string;
     email: string;
     telefone: string;
-    arquivo: string;
+    arquivo1: string;
+    arquivo2: string;
     linguagens: ILanguage[];
 }

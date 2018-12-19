@@ -41,9 +41,7 @@ export class AddComponent implements OnInit {
         ]
       ],
       arquivo2: [null],
-      linguagens: this.formBuilder.array([
-        this.createItem()
-      ])
+      linguagens: this.formBuilder.array([])
     });
 
     this.linguagens = this.userForm.get('linguagens') as FormArray;
@@ -52,25 +50,7 @@ export class AddComponent implements OnInit {
   }
   
 
-  createItem(): FormGroup {
-    return this.formBuilder.group({
-      linguagem: [''],
-      nivel: ['', Validators.required],
-      tipo: ['operacao-3']
-    });
-  }
-
-  addItem(): void {
-    this.linguagens.push(this.createItem());
-  }
-
-  removeItem(index: number){
-    this.linguagens.removeAt(index);
-  }
-
-  hasMoreThanOneLanguages(): boolean {
-    return (this.linguagens.length > 1);
-  }
+  
 
   sendForm(){
     //console.log(this.userForm)
@@ -84,9 +64,11 @@ export class AddComponent implements OnInit {
       this.userForm.markAsDirty();
     }else{
 
-      const dados = this.userForm.getRawValue() as IUser;
-      console.log(dados);
+      console.log('ENVIAR AQUI');
     }
+
+    const dados = this.userForm.getRawValue() as IUser;
+    console.log('FORM DATA', dados);
   
   }
 

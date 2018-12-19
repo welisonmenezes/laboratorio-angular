@@ -1,0 +1,81 @@
+<div [formGroup]="userForm">
+  {{ userForm }}
+  <div formArrayName="linguagens">
+    <fieldset
+      *ngFor="let item of userForm.get('linguagens').controls; let i = index;"
+      [formGroupName]="i">
+      <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Linguagem"
+            formControlName="linguagem">
+      </div>
+      <div class="form-group">
+        <select
+          class="form-control"
+          formControlName="nivel"
+          [selectAsList]="userForm.get('linguagens').controls[i].controls.nivel">
+          <option value="">Selecione uma opção</option>
+          <option value="1">Nível 1</option>
+          <option value="2">Nível 2</option>
+          <option value="3">Nível 3</option>
+        </select>
+        <!-- <div #messageContainer class="alert alert-danger" role="alert" *ngIf="userForm.get('linguagens').controls[i].controls.nivel.errors && !userForm.get('linguagens').controls[i].controls.nivel.pristine">
+          errors
+        </div> -->
+        <app-error-message [control]="userForm.get('linguagens').controls[i].controls.nivel" [submitService]="formSubmitService"></app-error-message>
+        {{ userForm.get('linguagens').controls[i].controls.nivel.errors }}
+      </div>
+      <div class="form-group">
+        
+          <div class="wm-custom-select form-control">
+            <div class="display field-default">Escolha o tipo de operação</div>
+            <ul class="custom-scrollbar">
+              <li class="selected field-default" data-value="">
+                Escolha o tipo de operação
+              </li>
+              <li class="field-default" data-value="operacao-1">
+                Operação 1
+              </li>
+              <li class="field-default" data-value="operacao-2">
+                Operação 2
+              </li>
+              <li class="field-default" data-value="operacao-3">
+                Operação 3
+              </li>
+              <li class="field-default" data-value="operacao-4">
+                Operação 4
+              </li>
+              <li class="field-default" data-value="operacao-5">
+                Operação 5
+              </li>
+              <li class="field-default" data-value="operacao-6">
+                Operação 6
+              </li>
+            </ul>
+            <input
+              type="hidden"
+              formControlName="tipo"
+              customSelect [myControl]="userForm.get('linguagens').controls[i].controls.tipo">
+          </div>
+      </div>
+      <div
+        class="form-group text-right"
+        *ngIf="hasMoreThanOneLanguages()">
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="removeItem(i)">Excluir</button>
+      </div>
+    </fieldset>
+  </div>
+</div>
+<div class="form-group">
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="addItem()">
+      Add Linguagem
+    </button>
+</div>
